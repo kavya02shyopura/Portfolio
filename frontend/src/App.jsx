@@ -118,7 +118,11 @@ function App() {
                     <div style={ { display: 'flex', flexDirection: 'column' } }>
                         <h2 style={ { color: '#d0d4e6' } }>Kavya Shyopura</h2>
                         <p style={ { color: '#c0c4d6' } }>Bio: A fresh engineering graduate excited to begin the career in the Software Engineering, passionate to learn and take on to the new challenges. Looking forward to contributing and developing skills as a part of the team.</p>
-                        <p style={ { color: '#c0c4d6' } }>Email: kavya02shyopura@gmail.com</p>
+                        <p style={ { color: '#c0c4d6' } }>
+                            Email: <a href="mailto:kavya02shyopura@gmail.com" style={ { color: '#c0c4d6', textDecoration: 'underline' } }>
+                                kavya02shyopura@gmail.com
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -149,7 +153,7 @@ function App() {
                     </div>
                     <div>
                         <h2 style={ { color: '#d0d4e6' } }>Portfolio</h2>
-                        <a href="https://github.com/kavya02shyopura" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/kavya02shyopura/Portfolio" target="_blank" rel="noopener noreferrer">
                             <button style={ { padding: '0.5rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' } }>
                                 View Project
                             </button>
