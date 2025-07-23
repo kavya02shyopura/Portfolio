@@ -69,7 +69,7 @@ function App() {
     }, [])
 
     return (
-        <div style={ { backgroundColor: '#1a2238', color: '#d0d4e6', minHeight: '100vh', fontFamily: 'Arial, sans-serif', position: 'relative', overflow: 'hidden' } }>
+        <div style={ { backgroundColor: '#1a2238', color: '#d0d4e6', minHeight: '100vh', fontFamily: 'Inter, Montserrat, Arial, sans-serif', position: 'relative', overflow: 'hidden' } }>
             {/* Animated Particles Background */ }
             <Particles
                 id="tsparticles"
@@ -188,47 +188,98 @@ function App() {
                     background: 'linear-gradient(135deg, #283353 60%, #3a4a7a 100%)',
                     animation: 'fadeInScale 1.2s cubic-bezier(0.23, 1, 0.32, 1)',
                     zIndex: 1,
+                    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                    overflow: 'hidden',
                 } }
             >
+                {/* Gradient overlay for hero section */ }
+                <div style={ {
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    background: 'radial-gradient(circle at 60% 40%, #6c63ff33 0%, #1a223800 80%)',
+                    zIndex: 0,
+                } } />
+                {/* Removed profile photo and name from Home section */ }
                 <h1
                     style={ {
-                        fontSize: '3rem',
+                        fontSize: '3.5rem',
                         fontWeight: 'bold',
-                        background: 'linear-gradient(90deg, #f0f4ff, #6c63ff, #f0f4ff)',
+                        background: 'linear-gradient(90deg, #f0f4ff, #6c63ff, #00cfff, #f0f4ff)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         textAlign: 'center',
                         marginBottom: '1.5rem',
                         letterSpacing: '2px',
                         textShadow: '0 4px 24px #1a2238',
-                        opacity: 0.95,
+                        opacity: 0.98,
                         animation: 'fadeInText 2s 0.2s both',
+                        fontFamily: 'Montserrat, Inter, Arial, sans-serif',
+                        zIndex: 1,
                     } }
                 >
                     Welcome to my profile
                 </h1>
-                <p style={ { color: '#d0d4e6', fontSize: '1.25rem', marginBottom: '2.5rem', opacity: 0.85, animation: 'fadeInText 2s 0.6s both' } }>
+                <p style={ { color: '#d0d4e6', fontSize: '1.35rem', marginBottom: '2.5rem', opacity: 0.88, animation: 'fadeInText 2s 0.6s both', zIndex: 1, fontFamily: 'Inter, Arial, sans-serif' } }>
                     Explore my journey, projects, and get in touch!
                 </p>
                 <button
                     onClick={ () => scrollToRef(aboutRef) }
                     style={ {
-                        background: 'linear-gradient(90deg, #6c63ff, #3a4a7a)',
+                        background: 'linear-gradient(90deg, #6c63ff, #00cfff)',
                         color: 'white',
                         border: 'none',
                         borderRadius: '30px',
-                        padding: '0.8rem 2.2rem',
-                        fontSize: '1.1rem',
+                        padding: '0.9rem 2.5rem',
+                        fontSize: '1.15rem',
                         fontWeight: 'bold',
                         cursor: 'pointer',
                         boxShadow: '0 4px 16px #1a2238',
-                        transition: 'transform 0.2s',
-                        marginTop: '1rem',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        marginTop: '1.2rem',
                         animation: 'fadeInText 2s 1s both',
+                        zIndex: 1,
+                        fontFamily: 'Montserrat, Inter, Arial, sans-serif',
                     } }
                 >
                     ↓ Scroll to About
                 </button>
+                {/* Animated scroll indicator */ }
+                <div style={ {
+                    position: 'absolute',
+                    bottom: '2.5rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    zIndex: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                } }>
+                    <div style={ {
+                        width: '28px',
+                        height: '48px',
+                        border: '2.5px solid #6c63ff',
+                        borderRadius: '16px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        background: 'rgba(26,34,56,0.7)',
+                        boxShadow: '0 2px 8px #6c63ff22',
+                        marginBottom: '0.5rem',
+                    } }>
+                        <div className="scroll-dot" style={ {
+                            width: '7px',
+                            height: '7px',
+                            background: '#6c63ff',
+                            borderRadius: '50%',
+                            margin: '7px auto',
+                            animation: 'scrollDot 1.4s infinite',
+                        } } />
+                    </div>
+                    <span style={ { color: '#6c63ff', fontSize: '0.95rem', opacity: 0.7, fontFamily: 'Inter, Arial, sans-serif' } }>Scroll</span>
+                </div>
                 {/* Keyframes for animation */ }
                 <style>{ `
                     @keyframes fadeInScale {
@@ -239,6 +290,11 @@ function App() {
                         0% { opacity: 0; transform: translateY(30px); }
                         100% { opacity: 1; transform: translateY(0); }
                     }
+                    @keyframes scrollDot {
+                        0% { opacity: 0.7; transform: translateY(0); }
+                        50% { opacity: 1; transform: translateY(22px); }
+                        100% { opacity: 0.7; transform: translateY(0); }
+                    }
                 `}</style>
             </div>
 
@@ -248,33 +304,58 @@ function App() {
                 onMouseLeave={ () => setHoverAbout(false) }
                 style={ {
                     scrollMarginTop: '90px',
-                    padding: '2rem',
-                    backgroundColor: hoverAbout ? '#3a4a7a' : '#283353',
-                    maxWidth: '900px',
+                    padding: '2.5rem 2rem',
+                    background: 'rgba(44, 62, 112, 0.55)',
+                    maxWidth: '1200px',
                     margin: '3rem auto',
-                    borderRadius: '10px',
-                    boxShadow: hoverAbout ? '0 10px 20px rgba(58,74,122,0.9)' : '0 6px 12px rgba(0,0,0,0.8)',
-                    transition: 'background 0.3s, box-shadow 0.3s',
+                    borderRadius: '22px',
+                    boxShadow: hoverAbout ? '0 12px 32px 0 #6c63ff55' : '0 6px 18px 0 #1a223855',
+                    transition: 'background 0.3s, box-shadow 0.3s, transform 0.3s',
+                    backdropFilter: 'blur(12px)',
+                    position: 'relative',
+                    transform: hoverAbout ? 'scale(1.025)' : 'scale(1)',
                 } }
             >
-                <h1 style={ { color: '#f0f4ff' } }>About</h1>
-                <div style={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '2rem' } }>
-                    <img src={ MyPhoto } alt="Profile" style={ { borderRadius: '50%', width: '150px', height: '150px', objectFit: 'cover', boxShadow: '0 0 15px #1a2a5a' } } />
-                    <div style={ { display: 'flex', flexDirection: 'column' } }>
-                        <h2 style={ { color: '#d0d4e6' } }>Kavya Shyopura</h2>
-                        <p style={ { color: '#c0c4d6' } }>Bio: Recent engineering graduate with a strong interest in software development, eager to contribute, learn, and grow within a dynamic team environment.</p>
-                        <p style={ { color: '#c0c4d6' } }>Skills: ++, Javascript, Python, DSA, Computer Networks.</p>
-                        <p style={ { color: '#c0c4d6' } }>
-                            Phone: <a href="tel:+917597974095" style={ { color: '#c0c4d6', textDecoration: 'underline' } }>
+                <h1 style={ { color: '#f0f4ff', fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 700, fontSize: '2.2rem', marginBottom: '1.2rem' } }>About</h1>
+                <div style={ { display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: '2.5rem' } }>
+                    <img src={ MyPhoto } alt="Profile" style={ { borderRadius: '50%', width: '160px', height: '160px', objectFit: 'cover', boxShadow: '0 0 24px #6c63ff55', border: '4px solid #fff2', transition: 'transform 0.4s', transform: hoverAbout ? 'scale(1.08)' : 'scale(1)' } } />
+                    <div style={ { display: 'flex', flexDirection: 'column', gap: '0.5rem', fontFamily: 'Inter, Arial, sans-serif' } }>
+                        <h2 style={ {
+                            color: '#6c63ff',
+                            fontWeight: 800,
+                            fontSize: '2.3rem',
+                            margin: 0,
+                            background: 'linear-gradient(90deg, #6c63ff, #00cfff, #f0f4ff)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            letterSpacing: '2px',
+                            fontFamily: 'Montserrat, Arial, sans-serif',
+                            textShadow: '0 2px 16px #1a2238',
+                            lineHeight: 1.1,
+                        } }>
+                            Kavya Shyopura
+                        </h2>
+                        <p style={ { color: '#c0c4d6', margin: 0 } }><span style={ { fontWeight: 600 } }>Bio:</span> Recent engineering graduate with a strong interest in software development, eager to contribute, learn, and grow within a dynamic team environment.</p>
+                        <div style={ { display: 'flex', alignItems: 'center', gap: '0.7rem', margin: '0.2rem 0' } }>
+                            <span style={ { fontWeight: 600, color: '#c0c4d6' } }>Skills:</span>
+                            <span style={ { color: '#d0d4e6', fontWeight: 500, fontSize: '1.08rem' } }>C++</span>
+                            <span style={ { color: '#d0d4e6', fontWeight: 500, fontSize: '1.08rem' } }>JavaScript</span>
+                            <span style={ { color: '#d0d4e6', fontWeight: 500, fontSize: '1.08rem' } }>Python</span>
+                            <span style={ { color: '#d0d4e6', fontWeight: 500, fontSize: '1.08rem' } }>DSA</span>
+                            <span style={ { color: '#d0d4e6', fontWeight: 500, fontSize: '1.08rem' } }>Computer Networks</span>
+                        </div>
+                        <div style={ { display: 'flex', alignItems: 'center', gap: '0.7rem' } }>
+                            <span style={ { fontWeight: 600, color: '#c0c4d6' } }>Phone:</span>
+                            <a href="tel:+917597974095" style={ { color: '#c0c4d6', textDecoration: 'underline', fontWeight: 500 } }>
                                 +91 7597974095
                             </a>
-                        </p>
-
-                        <p style={ { color: '#c0c4d6' } }>
-                            Email: <a href="mailto:kavya02shyopura@gmail.com" style={ { color: '#c0c4d6', textDecoration: 'underline' } }>
+                        </div>
+                        <div style={ { display: 'flex', alignItems: 'center', gap: '0.7rem' } }>
+                            <span style={ { fontWeight: 600, color: '#c0c4d6' } }>Email:</span>
+                            <a href="mailto:kavya02shyopura@gmail.com" style={ { color: '#c0c4d6', textDecoration: 'underline', fontWeight: 500 } }>
                                 kavya02shyopura@gmail.com
                             </a>
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -285,34 +366,77 @@ function App() {
                 onMouseLeave={ () => setHoverProjects(false) }
                 style={ {
                     scrollMarginTop: '90px',
-                    padding: '2rem',
-                    backgroundColor: hoverProjects ? '#3a4a7a' : '#283353',
-                    maxWidth: '900px',
+                    padding: '2.5rem 2rem',
+                    background: 'rgba(44, 62, 112, 0.55)',
+                    maxWidth: '1200px',
                     margin: '2rem auto',
-                    borderRadius: '10px',
-                    boxShadow: hoverProjects ? '0 10px 20px rgba(58,74,122,0.9)' : '0 6px 12px rgba(0,0,0,0.8)',
-                    transition: 'background 0.3s, box-shadow 0.3s',
+                    borderRadius: '22px',
+                    boxShadow: hoverProjects ? '0 12px 32px 0 #00cfff55' : '0 6px 18px 0 #1a223855',
+                    transition: 'background 0.3s, box-shadow 0.3s, transform 0.3s',
+                    backdropFilter: 'blur(12px)',
+                    position: 'relative',
+                    transform: hoverProjects ? 'scale(1.025)' : 'scale(1)',
                 } }
             >
-                <h1 style={ { color: '#f0f4ff' } }>Projects</h1>
-                <div style={ { display: 'flex', flexDirection: 'column', gap: '1.5rem' } }>
-                    <div>
-                        <h2 style={ { color: '#d0d4e6' } }>Emotion recognition using text</h2>
+                <h1 style={ { color: '#f0f4ff', fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 700, fontSize: '2.2rem', marginBottom: '1.2rem' } }>Projects</h1>
+                <div style={ { display: 'flex', flexDirection: 'row', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' } }>
+                    {/* Project Card 1 */ }
+                    <div style={ {
+                        background: 'rgba(108,99,255,0.13)',
+                        borderRadius: '16px',
+                        boxShadow: '0 4px 18px #6c63ff22',
+                        padding: '1.5rem 1.2rem',
+                        minWidth: '260px',
+                        maxWidth: '340px',
+                        flex: '1 1 260px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: '1rem',
+                        transition: 'transform 0.25s, box-shadow 0.25s',
+                        border: '1.5px solid #6c63ff33',
+                        position: 'relative',
+                    } } className="project-card">
+                        <span style={ { fontSize: '2.1rem', color: '#6c63ff' } }>🤖</span>
+                        <h2 style={ { color: '#d0d4e6', fontWeight: 600, fontSize: '1.18rem', margin: 0 } }>Emotion recognition using text</h2>
                         <a href="https://github.com/kavya02shyopura/Emotion-detection-python" target="_blank" rel="noopener noreferrer">
-                            <button style={ { padding: '0.5rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' } }>
+                            <button style={ { padding: '0.5rem 1.1rem', background: 'linear-gradient(90deg,#6c63ff,#00cfff)', color: 'white', border: 'none', borderRadius: '7px', cursor: 'pointer', fontWeight: 600, fontFamily: 'Inter,Arial', fontSize: '1rem', boxShadow: '0 2px 8px #6c63ff22', transition: 'background 0.2s' } }>
                                 View Project
                             </button>
                         </a>
                     </div>
-                    <div>
-                        <h2 style={ { color: '#d0d4e6' } }>Portfolio</h2>
+                    {/* Project Card 2 */ }
+                    <div style={ {
+                        background: 'rgba(0,207,255,0.13)',
+                        borderRadius: '16px',
+                        boxShadow: '0 4px 18px #00cfff22',
+                        padding: '1.5rem 1.2rem',
+                        minWidth: '260px',
+                        maxWidth: '340px',
+                        flex: '1 1 260px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-start',
+                        gap: '1rem',
+                        transition: 'transform 0.25s, box-shadow 0.25s',
+                        border: '1.5px solid #00cfff33',
+                        position: 'relative',
+                    } } className="project-card">
+                        <span style={ { fontSize: '2.1rem', color: '#00cfff' } }>🌐</span>
+                        <h2 style={ { color: '#d0d4e6', fontWeight: 600, fontSize: '1.18rem', margin: 0 } }>Portfolio</h2>
                         <a href="https://github.com/kavya02shyopura/Portfolio" target="_blank" rel="noopener noreferrer">
-                            <button style={ { padding: '0.5rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' } }>
+                            <button style={ { padding: '0.5rem 1.1rem', background: 'linear-gradient(90deg,#00cfff,#6c63ff)', color: 'white', border: 'none', borderRadius: '7px', cursor: 'pointer', fontWeight: 600, fontFamily: 'Inter,Arial', fontSize: '1rem', boxShadow: '0 2px 8px #00cfff22', transition: 'background 0.2s' } }>
                                 View Project
                             </button>
                         </a>
                     </div>
                 </div>
+                <style>{ `
+                    .project-card:hover {
+                        transform: translateY(-8px) scale(1.035);
+                        box-shadow: 0 8px 32px #6c63ff44, 0 2px 8px #00cfff33;
+                    }
+                `}</style>
             </div>
 
             <div
@@ -321,41 +445,49 @@ function App() {
                 onMouseLeave={ () => setHoverContact(false) }
                 style={ {
                     scrollMarginTop: '90px',
-                    padding: '2rem',
-                    backgroundColor: hoverContact ? '#3a4a7a' : '#283353',
-                    maxWidth: '900px',
+                    padding: '2.5rem 2rem',
+                    background: 'rgba(44, 62, 112, 0.55)',
+                    maxWidth: '1200px',
                     margin: '2rem auto 4rem auto',
-                    borderRadius: '10px',
-                    boxShadow: hoverContact ? '0 10px 20px rgba(58,74,122,0.9)' : '0 6px 12px rgba(0,0,0,0.8)',
+                    borderRadius: '22px',
+                    boxShadow: hoverContact ? '0 12px 32px 0 #00cfff55' : '0 6px 18px 0 #1a223855',
                     position: 'relative',
-                    transition: 'background 0.3s, box-shadow 0.3s',
+                    transition: 'background 0.3s, box-shadow 0.3s, transform 0.3s',
+                    backdropFilter: 'blur(12px)',
+                    transform: hoverContact ? 'scale(1.025)' : 'scale(1)',
                 } }
             >
-                <h1 style={ { color: '#f0f4ff' } }>Contact</h1>
-                <form onSubmit={ handleSubmit } style={ { display: 'flex', flexDirection: 'column', gap: '1rem' } }>
-                    <input type="text" name="name" placeholder="Name" value={ formData.name } onChange={ handleInputChange } required style={ { padding: '0.5rem', borderRadius: '5px', border: '1px solid #4a5a8a', backgroundColor: '#1f2a55', color: '#d0d4e6' } } />
-                    <input type="email" name="email" placeholder="Email" value={ formData.email } onChange={ handleInputChange } required style={ { padding: '0.5rem', borderRadius: '5px', border: '1px solid #4a5a8a', backgroundColor: '#1f2a55', color: '#d0d4e6' } } />
-                    <textarea name="message" placeholder="Message" value={ formData.message } onChange={ handleInputChange } required rows={ 4 } style={ { padding: '0.5rem', borderRadius: '5px', border: '1px solid #4a5a8a', backgroundColor: '#1f2a55', color: '#d0d4e6' } } />
-                    <button type="submit" style={ { padding: '0.5rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' } }>Send</button>
+                <h1 style={ { color: '#f0f4ff', fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 700, fontSize: '2.2rem', marginBottom: '1.2rem' } }>Contact</h1>
+                <form onSubmit={ handleSubmit } style={ { display: 'flex', flexDirection: 'column', gap: '1.1rem', fontFamily: 'Inter, Arial, sans-serif' } }>
+                    <div style={ { display: 'flex', alignItems: 'center', gap: '0.7rem' } }>
+                        <span style={ { fontSize: '1.2rem', color: '#6c63ff' } }>👤</span>
+                        <input type="text" name="name" placeholder="Name" value={ formData.name } onChange={ handleInputChange } required style={ { flex: 1, padding: '0.7rem', borderRadius: '7px', border: '1.5px solid #6c63ff44', backgroundColor: '#232e4a', color: '#d0d4e6', fontSize: '1rem', fontFamily: 'inherit', outline: 'none', transition: 'border 0.2s' } } />
+                    </div>
+                    <div style={ { display: 'flex', alignItems: 'center', gap: '0.7rem' } }>
+                        <span style={ { fontSize: '1.2rem', color: '#00cfff' } }>✉️</span>
+                        <input type="email" name="email" placeholder="Email" value={ formData.email } onChange={ handleInputChange } required style={ { flex: 1, padding: '0.7rem', borderRadius: '7px', border: '1.5px solid #00cfff44', backgroundColor: '#232e4a', color: '#d0d4e6', fontSize: '1rem', fontFamily: 'inherit', outline: 'none', transition: 'border 0.2s' } } />
+                    </div>
+                    <div style={ { display: 'flex', alignItems: 'flex-start', gap: '0.7rem' } }>
+                        <span style={ { fontSize: '1.2rem', color: '#6c63ff', marginTop: '0.3rem' } }>💬</span>
+                        <textarea name="message" placeholder="Message" value={ formData.message } onChange={ handleInputChange } required rows={ 4 } style={ { flex: 1, padding: '0.7rem', borderRadius: '7px', border: '1.5px solid #6c63ff44', backgroundColor: '#232e4a', color: '#d0d4e6', fontSize: '1rem', fontFamily: 'inherit', outline: 'none', resize: 'vertical', transition: 'border 0.2s' } } />
+                    </div>
+                    <button type="submit" style={ { padding: '0.7rem 1.5rem', background: 'linear-gradient(90deg,#6c63ff,#00cfff)', color: 'white', border: 'none', borderRadius: '9px', cursor: 'pointer', fontWeight: 600, fontFamily: 'Montserrat,Inter,Arial', fontSize: '1.08rem', boxShadow: '0 2px 8px #6c63ff22', transition: 'background 0.2s, transform 0.2s', alignSelf: 'flex-end' } }>Send</button>
                 </form>
                 { showMessages && (
-                    <div>
-                        <h2 style={ { marginTop: '2rem', color: '#f0f4ff' } }>Messages</h2>
-                        <ul style={ { listStyleType: 'none', paddingLeft: 0 } }>
+                    <div style={ { marginTop: '2.5rem' } }>
+                        <h2 style={ { color: '#f0f4ff', fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 600, fontSize: '1.3rem', marginBottom: '1.1rem' } }>Messages</h2>
+                        <ul style={ { listStyleType: 'none', paddingLeft: 0, display: 'flex', flexDirection: 'column', gap: '1.1rem' } }>
                             { messages.map((msg, index) => (
-                                <li key={ index } style={ { backgroundColor: '#2c3e70', padding: '1rem', borderRadius: '5px', marginBottom: '1rem', color: '#d0d4e6' } }>
-                                    <p><strong>Name:</strong> { msg.name }</p>
-                                    <p><strong>Email:</strong> { msg.email }</p>
-                                    <p><strong>Message:</strong> { msg.message }</p>
+                                <li key={ index } style={ { background: 'rgba(44,62,112,0.55)', padding: '1.1rem', borderRadius: '14px', color: '#d0d4e6', boxShadow: '0 2px 8px #6c63ff22', border: '1.5px solid #6c63ff22', fontFamily: 'Inter,Arial', display: 'flex', flexDirection: 'column', gap: '0.3rem', transition: 'box-shadow 0.2s' } }>
+                                    <span style={ { fontWeight: 600, color: '#6c63ff', fontSize: '1.05rem' } }>👤 { msg.name }</span>
+                                    <span style={ { fontWeight: 500, color: '#00cfff', fontSize: '0.98rem' } }>✉️ { msg.email }</span>
+                                    <span style={ { color: '#d0d4e6', fontSize: '1.01rem' } }>💬 { msg.message }</span>
                                 </li>
                             )) }
                         </ul>
                     </div>
                 ) }
             </div>
-            <button onClick={ () => setShowMessages(!showMessages) } style={ { position: 'fixed', right: '1rem', bottom: '1rem', padding: '0.6rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', zIndex: 1000 } }>
-                { showMessages ? 'Hide Messages' : 'Show Messages' }
-            </button>
             {/* Stylish Footer */ }
             <footer style={ {
                 width: '100%',
@@ -416,6 +548,10 @@ function App() {
                 <div style={ { fontSize: '0.98rem', color: '#b0b4c6', letterSpacing: '1px' } }>
                     &copy; { new Date().getFullYear() } Kavya Shyopura. All rights reserved.
                 </div>
+                {/* Show Messages button moved to bottom right of footer */ }
+                <button onClick={ () => setShowMessages(!showMessages) } style={ { position: 'absolute', right: '1.5rem', bottom: '1.2rem', padding: '0.6rem 1rem', backgroundColor: '#1a2a5a', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', zIndex: 1000, boxShadow: '0 2px 8px #6c63ff22', fontWeight: 600, fontFamily: 'Inter, Arial, sans-serif', fontSize: '1rem', transition: 'background 0.2s' } }>
+                    { showMessages ? 'Hide Messages' : 'Show Messages' }
+                </button>
                 <style>{ `
                     .footer-link:hover {
                         background: rgba(108, 99, 255, 0.18);
