@@ -7,15 +7,20 @@ function App() {
     const homeRef = useRef(null)
     const aboutRef = useRef(null)
     const projectsRef = useRef(null)
+    const blogRef = useRef(null)
     const contactRef = useRef(null)
 
     const [formData, setFormData] = useState({ name: '', email: '', message: '' })
     const [messages, setMessages] = useState([])
     const [showMessages, setShowMessages] = useState(false)
+    const [blogs, setBlogs] = useState([])
+    const [selectedBlog, setSelectedBlog] = useState(null)
+    const [showBlogModal, setShowBlogModal] = useState(false)
 
     // Added missing hover state declarations
     const [hoverAbout, setHoverAbout] = useState(false)
     const [hoverProjects, setHoverProjects] = useState(false)
+    const [hoverBlog, setHoverBlog] = useState(false)
     const [hoverContact, setHoverContact] = useState(false)
 
     // For tsparticles init
@@ -36,7 +41,7 @@ function App() {
         e.preventDefault()
         // Send formData to backend API
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/contact`, {
+            const response = await fetch(`http://localhost:5000/api/contact`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -54,7 +59,7 @@ function App() {
 
     const fetchMessages = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/messages`)
+            const response = await fetch(`http://localhost:5000/api/messages`)
             if (response.ok) {
                 const data = await response.json()
                 setMessages(data)
@@ -64,8 +69,34 @@ function App() {
         }
     }
 
+    const fetchBlogs = async () => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/blogs`)
+            if (response.ok) {
+                const data = await response.json()
+                setBlogs(data)
+            }
+        } catch (error) {
+            console.error('Error fetching blogs:', error)
+        }
+    }
+
+    const openBlogModal = async (blogId) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/blogs/${blogId}`)
+            if (response.ok) {
+                const blog = await response.json()
+                setSelectedBlog(blog)
+                setShowBlogModal(true)
+            }
+        } catch (error) {
+            console.error('Error fetching blog:', error)
+        }
+    }
+
     useEffect(() => {
         fetchMessages()
+        fetchBlogs()
     }, [])
 
     return (
@@ -139,7 +170,7 @@ function App() {
             } }>
                 <div style={ { fontWeight: 'bold', fontSize: '1.45rem', fontFamily: 'Poppins, Arial, sans-serif', cursor: 'default', letterSpacing: '2px', color: '#f0f4ff' } }>My Portfolio</div>
                 <div style={ { flexGrow: 1, display: 'flex', justifyContent: 'center', gap: '2.2rem' } }>
-                    { [{ label: 'Home', ref: homeRef }, { label: 'About', ref: aboutRef }, { label: 'Projects', ref: projectsRef }, { label: 'Contact', ref: contactRef }].map((item, idx) => (
+                    { [{ label: 'Home', ref: homeRef }, { label: 'About', ref: aboutRef }, { label: 'Projects', ref: projectsRef }, { label: 'Blog', ref: blogRef }, { label: 'Contact', ref: contactRef }].map((item, idx) => (
                         <button
                             key={ item.label }
                             onClick={ () => scrollToRef(item.ref) }
@@ -440,6 +471,132 @@ function App() {
             </div>
 
             <div
+                ref={ blogRef }
+                onMouseEnter={ () => setHoverBlog(true) }
+                onMouseLeave={ () => setHoverBlog(false) }
+                style={ {
+                    scrollMarginTop: '90px',
+                    padding: '2.5rem 2rem',
+                    background: 'rgba(44, 62, 112, 0.55)',
+                    maxWidth: '1200px',
+                    margin: '2rem auto',
+                    borderRadius: '22px',
+                    boxShadow: hoverBlog ? '0 12px 32px 0 #6c63ff55' : '0 6px 18px 0 #1a223855',
+                    transition: 'background 0.3s, box-shadow 0.3s, transform 0.3s',
+                    backdropFilter: 'blur(12px)',
+                    position: 'relative',
+                    transform: hoverBlog ? 'scale(1.025)' : 'scale(1)',
+                } }
+            >
+                <h1 style={ { color: '#f0f4ff', fontFamily: 'Montserrat, Arial, sans-serif', fontWeight: 700, fontSize: '2.2rem', marginBottom: '1.2rem' } }>Blog</h1>
+                <div style={ { display: 'flex', flexDirection: 'row', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' } }>
+                    { blogs.map((blog, index) => (
+                        <div key={ blog.id } style={ {
+                            background: 'rgba(108,99,255,0.13)',
+                            borderRadius: '16px',
+                            boxShadow: '0 4px 18px #6c63ff22',
+                            padding: '1.5rem 1.2rem',
+                            minWidth: '280px',
+                            maxWidth: '380px',
+                            flex: '1 1 280px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-start',
+                            gap: '1rem',
+                            transition: 'transform 0.25s, box-shadow 0.25s',
+                            border: '1.5px solid #6c63ff33',
+                            position: 'relative',
+                            cursor: 'pointer',
+                        } } className="blog-card" onClick={ () => openBlogModal(blog.id) }>
+                            <div style={ { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' } }>
+                                <span style={ { fontSize: '1.2rem', color: '#6c63ff' } }>📝</span>
+                                <span style={ { color: '#6c63ff', fontSize: '0.9rem', fontWeight: 600, backgroundColor: 'rgba(108,99,255,0.2)', padding: '0.2rem 0.6rem', borderRadius: '12px' } }>{ blog.category }</span>
+                            </div>
+                            <h2 style={ { color: '#d0d4e6', fontWeight: 600, fontSize: '1.18rem', margin: 0, lineHeight: '1.4' } }>{ blog.title }</h2>
+                            <p style={ { color: '#b0b4c6', fontSize: '0.95rem', margin: 0, lineHeight: '1.5' } }>{ blog.excerpt }</p>
+                            <div style={ { display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginTop: 'auto' } }>
+                                <span style={ { color: '#6c63ff', fontSize: '0.85rem', fontWeight: 500 } }>{ blog.date_posted }</span>
+                                <span style={ { color: '#00cfff', fontSize: '0.85rem', fontWeight: 500 } }>{ blog.read_time }</span>
+                            </div>
+                        </div>
+                    )) }
+                </div>
+                <style>{ `
+                    .blog-card:hover {
+                        transform: translateY(-8px) scale(1.035);
+                        box-shadow: 0 8px 32px #6c63ff44, 0 2px 8px #00cfff33;
+                    }
+                `}</style>
+            </div>
+
+            {/* Blog Modal */ }
+            { showBlogModal && selectedBlog && (
+                <div style={ {
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100vw',
+                    height: '100vh',
+                    backgroundColor: 'rgba(0,0,0,0.8)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 2000,
+                    padding: '2rem',
+                } } onClick={ () => setShowBlogModal(false) }>
+                    <div style={ {
+                        background: 'rgba(44, 62, 112, 0.95)',
+                        borderRadius: '20px',
+                        padding: '2.5rem',
+                        maxWidth: '800px',
+                        maxHeight: '80vh',
+                        overflow: 'auto',
+                        position: 'relative',
+                        backdropFilter: 'blur(15px)',
+                        border: '2px solid #6c63ff33',
+                        boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
+                    } } onClick={ (e) => e.stopPropagation() }>
+                        <button onClick={ () => setShowBlogModal(false) } style={ {
+                            position: 'absolute',
+                            top: '1rem',
+                            right: '1rem',
+                            background: 'none',
+                            border: 'none',
+                            color: '#d0d4e6',
+                            fontSize: '1.5rem',
+                            cursor: 'pointer',
+                            padding: '0.5rem',
+                            borderRadius: '50%',
+                            transition: 'background 0.2s',
+                        } }>✕</button>
+
+                        <div style={ { marginBottom: '1.5rem' } }>
+                            <div style={ { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' } }>
+                                <span style={ { fontSize: '1.2rem', color: '#6c63ff' } }>📝</span>
+                                <span style={ { color: '#6c63ff', fontSize: '0.9rem', fontWeight: 600, backgroundColor: 'rgba(108,99,255,0.2)', padding: '0.2rem 0.6rem', borderRadius: '12px' } }>{ selectedBlog.category }</span>
+                            </div>
+                            <h1 style={ { color: '#f0f4ff', fontSize: '2rem', fontWeight: 700, marginBottom: '1rem', lineHeight: '1.3' } }>{ selectedBlog.title }</h1>
+                            <div style={ { display: 'flex', gap: '1rem', marginBottom: '1.5rem' } }>
+                                <span style={ { color: '#6c63ff', fontSize: '0.9rem', fontWeight: 500 } }>{ selectedBlog.date_posted }</span>
+                                <span style={ { color: '#00cfff', fontSize: '0.9rem', fontWeight: 500 } }>{ selectedBlog.read_time }</span>
+                            </div>
+                        </div>
+
+                        <div style={ {
+                            color: '#d0d4e6',
+                            fontSize: '1.05rem',
+                            lineHeight: '1.7',
+                            textAlign: 'justify'
+                        } }>
+                            { selectedBlog.content.split('\n').map((paragraph, index) => (
+                                <p key={ index } style={ { marginBottom: '1rem' } }>{ paragraph }</p>
+                            )) }
+                        </div>
+                    </div>
+                </div>
+            ) }
+
+            <div
                 ref={ contactRef }
                 onMouseEnter={ () => setHoverContact(true) }
                 onMouseLeave={ () => setHoverContact(false) }
@@ -506,13 +663,14 @@ function App() {
                 zIndex: 10,
             } }>
                 <div style={ { display: 'flex', gap: '2.5rem', marginBottom: '0.7rem' } }>
-                    { ['Home', 'About', 'Projects', 'Contact'].map((label, idx) => (
+                    { ['Home', 'About', 'Projects', 'Blog', 'Contact'].map((label, idx) => (
                         <button
                             key={ label }
                             onClick={ () => {
                                 if (label === 'Home') scrollToRef(homeRef);
                                 if (label === 'About') scrollToRef(aboutRef);
                                 if (label === 'Projects') scrollToRef(projectsRef);
+                                if (label === 'Blog') scrollToRef(blogRef);
                                 if (label === 'Contact') scrollToRef(contactRef);
                             } }
                             style={ {
